@@ -131,12 +131,23 @@ def getBoxNumber(x,y):
     return((locationX,locationY))
 
 
-def allowedMove(se)
-
+def allowedMove(boxNumber):
+    global selectedPiece
+    movablePosition=None
+    pieceName=board[selectedPiece[1]][selectedPiece[0]]
+    if(pieceName==-1):
+        if(selectedPiece[1]==6):
+            options=((selectedPiece[0],selectedPiece[1]-1),(selectedPiece[0],selectedPiece[1]-2))
+            if(boxNumber in options):
+                return True
+        else:
+            options=((selectedPiece[0],selectedPiece[1]-1))
+            if(boxNumber == options):
+                return True
 
 def movePieces(box_number):
     global colored_y,colored_x,selected,selectedPiece
- 
+    allowedMove(box_number)
     if(allowedMove(box_number)):
         if(board[box_number[1]][box_number[0]]==0):
 
