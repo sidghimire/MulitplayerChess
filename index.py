@@ -22,7 +22,7 @@ board=[[2,3,4,5,6,4,3,2],
         [1,1,1,1,1,1,1,1],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,1,0,0,0],
+        [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [-2,-3,-4,-5,-6,-4,-3,-2]]
@@ -117,6 +117,31 @@ def show_movable_position(i,j):
                 selected=True
                 selectedPiece=(i,j)
 
+    elif(pieceName==1):
+        if(j==1):
+            a=i*80
+            b=j*80
+            pos1=getBoxNumber(a+10,b+90)
+            selected=True
+            selectedPiece=(pos1[1],pos1[0])
+            if(board[pos1[1]][pos1[0]]==0):
+                pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
+                pos1=getBoxNumber(a+10,b+150)
+                if(board[pos1[1]][pos1[0]]==0):
+                    pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b+160,80,80))
+                selected=True
+                selectedPiece=(i,j)
+        else:
+            a=i*80
+            b=j*80
+            pos1=getBoxNumber(a+10,b+90)
+            selected=True
+            selectedPiece=(pos1[1],pos1[0])
+            if(board[pos1[1]][pos1[0]]==0):
+                pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
+                selected=True
+                selectedPiece=(i,j)
+
 
 
 def getBoxNumber(x,y):
@@ -144,13 +169,21 @@ def allowedMove(boxNumber):
             options=((selectedPiece[0],selectedPiece[1]-1))
             if(boxNumber == options):
                 return True
+    elif(pieceName==1):
+        if(selectedPiece[1]==1):
+            options=((selectedPiece[0],selectedPiece[1]+1),(selectedPiece[0],selectedPiece[1]+2))
+            if(boxNumber in options):
+                return True
+        else:
+            options=((selectedPiece[0],selectedPiece[1]+1))
+            if(boxNumber == options):
+                return True
 
 def movePieces(box_number):
     global colored_y,colored_x,selected,selectedPiece
     allowedMove(box_number)
     if(allowedMove(box_number)):
         if(board[box_number[1]][box_number[0]]==0):
-
             board[box_number[1]][box_number[0]]=board[selectedPiece[1]][selectedPiece[0]]
             board[selectedPiece[1]][selectedPiece[0]]=0
     colored_x=None
