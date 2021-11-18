@@ -1,0 +1,46 @@
+
+
+        #Left
+        while(True):
+            if(p<=7 and p>=0):
+                if(board[j][p]==0):
+                    options=list(options)
+                    options.append((p,j))
+                    options=tuple(options)
+                else:
+                    if(not (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
+                        pygame.draw.rect(screen,red,pygame.Rect(p*80,j*80,80,80))
+                    break
+            else:
+                break
+            p=p-1
+        p=j-1
+
+        #BOTTOM
+        while(True):
+            if(p<=7 and p>=0):
+                if(board[p][i]==0):
+                    options=list(options)
+                    options.append((i,p))
+                    options=tuple(options)
+                else:
+                    if( (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
+                        pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
+                    break
+            else:
+                break
+            p=p-1
+        p=j+1
+        while(True):
+            if(p<=7 and p>=0):
+                if(board[p][i]==0):
+                    options=list(options)
+                    options.append((i,p))
+                    options=tuple(options)
+                else:
+                    if( (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
+                        pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
+                    break
+            else:
+                break
+            p=p+1

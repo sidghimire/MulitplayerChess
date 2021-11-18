@@ -1,4 +1,5 @@
 #create window for pygame
+from os import kill
 import pygame,sys
 
 #initialize pygame
@@ -21,8 +22,8 @@ pygame.display.set_caption("Chess AI")
 board=[[2,3,4,5,6,4,3,2],
         [1,1,1,1,1,1,1,1],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
+        [0,2,0,0,2,0,-1,0],
+        [0,0,2,-1,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [-2,-3,-4,-5,-6,-4,-3,-2]]
@@ -37,11 +38,110 @@ assignPieces={
     6:"./Pieces/Chess_klt60.png",
     -1:"./Pieces/Chess_pdt60.png",
     -2:"./Pieces/Chess_rdt60.png",
-    -3:"./Pieces/Chess_bdt60.png",
-    -4:"./Pieces/Chess_ndt60.png",
+    -3:"./Pieces/Chess_ndt60.png",
+    -4:"./Pieces/Chess_bdt60.png",
     -5:"./Pieces/Chess_qdt60.png",
     -6:"./Pieces/Chess_kdt60.png",
 }
+
+
+
+
+#logic for hatti
+
+def hattiLogic(i,j,demand):
+    options=()
+    killOptions=()
+    p=i+1
+    #Right
+    while(True):
+        if(p<=7 and p>=0):
+            if(board[j][p]==0):
+                options=list(options)
+                options.append((p,j))
+                options=tuple(options)
+            else:
+                #print((board[i][j],board[p][j]))
+                
+                if((board[j][i]<0 and board[j][p]>0) or (board[j][i]>0 and board[j][p]<0)):
+                    pygame.draw.rect(screen,red,pygame.Rect(p*80,j*80,80,80))
+                    killOptions=list(killOptions)
+                    killOptions.append((p,j))
+                    killOptions=tuple(killOptions)
+                
+                break
+        else:
+            break
+        p=p+1
+
+    #Left
+    p=i-1
+    while(True):
+        if(p<=7 and p>=0):
+            if(board[j][p]==0):
+                options=list(options)
+                options.append((p,j))
+                options=tuple(options)
+            else:
+                #print((board[i][j],board[p][j]))
+                
+                if((board[j][i]<0 and board[j][p]>0) or (board[j][i]>0 and board[j][p]<0)):
+                    pygame.draw.rect(screen,red,pygame.Rect(p*80,j*80,80,80))
+                    killOptions=list(killOptions)
+                    killOptions.append((p,j))
+                    killOptions=tuple(killOptions)
+                
+                break
+        else:
+            break
+        p=p-1
+
+        #Top
+    p=j-1
+    while(True):
+        if(p<=7 and p>=0):
+            #print((p,i),(board[p][i]))
+            #print(board[1][2])
+            if(board[p][i]==0):
+                
+                options=list(options)
+                options.append((i,p))
+                options=tuple(options)
+            else:
+                #print((board[i][j],board[p][j]))
+                
+                if((board[j][i]<0 and board[p][i]>0) or (board[j][i]>0 and board[p][i]<0)):
+                    pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
+                    killOptions=list(killOptions)
+                    killOptions.append((i,p))
+                    killOptions=tuple(killOptions)
+                break
+        else:
+            break
+        p=p-1
+
+    #bottom
+    p=j+1
+    #print((p,i),board[p][i])
+    while(True):
+        if(p<=7 and p>=0):
+            if(board[p][i]==0):
+                options=list(options)
+                options.append((i,p))
+                options=tuple(options)
+            else:
+                if((board[j][i]<0 and board[p][i]>0) or (board[j][i]>0 and board[p][i]<0)):
+                    pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
+                    killOptions=list(killOptions)
+                    killOptions.append((i,p))
+                    killOptions=tuple(killOptions)
+                break
+        else:
+            break
+        p=p+1
+    
+    if(demand=="color"):return ((options,killOptions))
+
 
 
 
@@ -126,7 +226,7 @@ def show_movable_position(i,j):
             selectedPiece=(pos1[1],pos1[0])
             if(board[pos1[1]][pos1[0]]==0):
                 pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
-                pos1=getBoxNumber(a+10,b+150)
+                pos1=getBoxNumber(a+10,b+170)
                 if(board[pos1[1]][pos1[0]]==0):
                     pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b+160,80,80))
                 selected=True
@@ -141,8 +241,33 @@ def show_movable_position(i,j):
                 pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
                 selected=True
                 selectedPiece=(i,j)
-
-
+    elif(pieceName==-3 or pieceName==3):
+        a=i*80
+        b=j*80
+        pos1=getBoxNumber(a+10,b-70)
+        options=((i-1,j-2),(i-1,j+2),(i+1,j+2),(i+1,j-2),(i+2,j-1),(i+2,j+1),(i-2,j-1),(i-2,j+1))
+        
+        selected=True
+        selectedPiece=(pos1[1],pos1[0])
+        for color in range(8):
+            if(options[color][1]<=7 and options[color][1]>=0 and options[color][0]<=7 and options[color][0]>=0):
+                if(board[options[color][1]][options[color][0]]==0):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                else:
+                    pygame.draw.rect(screen,red,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                selected=True
+                selectedPiece=(i,j)
+    elif(pieceName==-2 or pieceName==2):
+        options=hattiLogic(i,j,"color")
+        options=options[0]
+        pos1=(i,j)
+        selected=True
+        selectedPiece=(pos1[1],pos1[0])
+        for color in range(len(options)):
+            if(options[color][1]<=7 and options[color][1]>=0 and options[color][0]<=7 and options[color][0]>=0):
+                pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                selected=True
+                selectedPiece=(i,j)
 
 def getBoxNumber(x,y):
     locationX=None
@@ -157,8 +282,7 @@ def getBoxNumber(x,y):
 
 
 def allowedMove(boxNumber):
-    global selectedPiece
-    movablePosition=None
+    global selectedPiece,selected
     pieceName=board[selectedPiece[1]][selectedPiece[0]]
     if(pieceName==-1):
         if(selectedPiece[1]==6):
@@ -178,14 +302,50 @@ def allowedMove(boxNumber):
             options=((selectedPiece[0],selectedPiece[1]+1))
             if(boxNumber == options):
                 return True
+    elif(pieceName==-3 or pieceName==3):
+        i=selectedPiece[0]
+        j=selectedPiece[1]
+        options=((i-1,j-2),(i-1,j+2),(i+1,j+2),(i+1,j-2),(i+2,j-1),(i+2,j+1),(i-2,j-1),(i-2,j+1))
+        if(boxNumber in options):
+            return True
+
+    elif(pieceName==-2 or pieceName==2):
+        i=selectedPiece[0]
+        j=selectedPiece[1]
+        options=hattiLogic(i,j,"color")
+        killList=options[1]
+        options=options[0]
+        pos1=(i,j)
+        selected=True
+        selectedPiece=(pos1[1],pos1[0])
+        for color in range(len(options)):
+            if(options[color][1]<=7 and options[color][1]>=0 and options[color][0]<=7 and options[color][0]>=0):
+                pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                selected=True
+                selectedPiece=(i,j)
+        options=list(options)
+        for addKillList in range(len(killList)):
+            options.append(killList[addKillList])
+        options=tuple(options)
+        if(boxNumber in options):
+            return True
 
 def movePieces(box_number):
     global colored_y,colored_x,selected,selectedPiece
-    allowedMove(box_number)
     if(allowedMove(box_number)):
-        if(board[box_number[1]][box_number[0]]==0):
+        print(board[box_number[1]][box_number[0]])
+        print(board[selectedPiece[1]][selectedPiece[0]])
+        if(board[box_number[1]][box_number[0]]==0 and (board[selectedPiece[1]][selectedPiece[0]]==1 or board[selectedPiece[1]][selectedPiece[0]]==-1)):
+            print(board[box_number[1]][box_number[0]])
+            print(board[selectedPiece[1]][selectedPiece[0]])
             board[box_number[1]][box_number[0]]=board[selectedPiece[1]][selectedPiece[0]]
             board[selectedPiece[1]][selectedPiece[0]]=0
+        else:
+            print(board[box_number[1]][box_number[0]])
+            print(board[selectedPiece[1]][selectedPiece[0]])
+            if( not (board[box_number[1]][box_number[0]]<0 and board[selectedPiece[1]][selectedPiece[0]]<0) or (board[box_number[1]][box_number[0]]>0 and board[selectedPiece[1]][selectedPiece[0]]>0)):
+                board[box_number[1]][box_number[0]]=board[selectedPiece[1]][selectedPiece[0]]
+                board[selectedPiece[1]][selectedPiece[0]]=0
     colored_x=None
     colored_y=None  
     selected=False
