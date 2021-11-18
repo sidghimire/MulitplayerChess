@@ -1,8 +1,5 @@
-#create window for pygame
 from os import kill
 import pygame,sys
-
-#initialize pygame
 pygame.init()
 size=width,height=640,640
 brown=(185,134,103)
@@ -15,10 +12,8 @@ colored_x=None
 colored_y=None
 selected=False
 selectedPiece=None
-
 screen=pygame.display.set_mode(size)
 pygame.display.set_caption("Chess AI")
-
 board=[[2,3,4,5,6,4,3,2],
         [1,1,1,1,1,1,1,1],
         [0,0,0,0,0,0,0,0],
@@ -27,7 +22,6 @@ board=[[2,3,4,5,6,4,3,2],
         [0,0,0,0,0,0,0,0],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [-2,-3,-4,-5,-6,-4,-3,-2]]
-
 assignPieces={
     0:"./Pieces/null.png",
     1:"./Pieces/Chess_plt60.png",
@@ -47,7 +41,9 @@ assignPieces={
 
 
 
-#logic for hatti
+
+#Logic For Pieces
+
 
 def hattiLogic(i,j,demand):
     options=()
@@ -60,9 +56,7 @@ def hattiLogic(i,j,demand):
                 options=list(options)
                 options.append((p,j))
                 options=tuple(options)
-            else:
-                #print((board[i][j],board[p][j]))
-                
+            else:                
                 if((board[j][i]<0 and board[j][p]>0) or (board[j][i]>0 and board[j][p]<0)):
                     pygame.draw.rect(screen,red,pygame.Rect(p*80,j*80,80,80))
                     killOptions=list(killOptions)
@@ -73,7 +67,6 @@ def hattiLogic(i,j,demand):
         else:
             break
         p=p+1
-
     #Left
     p=i-1
     while(True):
@@ -95,7 +88,6 @@ def hattiLogic(i,j,demand):
         else:
             break
         p=p-1
-
         #Top
     p=j-1
     while(True):
@@ -119,7 +111,6 @@ def hattiLogic(i,j,demand):
         else:
             break
         p=p-1
-
     #bottom
     p=j+1
     #print((p,i),board[p][i])
@@ -145,6 +136,12 @@ def hattiLogic(i,j,demand):
 
 
 
+#Logic For Pieces
+
+
+
+
+
 
 #Draw Board
 def draw_board():
@@ -156,16 +153,13 @@ def draw_board():
             if color==1:
                 pygame.draw.rect(screen,skin,pygame.Rect(initX,initY,80,80))
                 color=color*(-1)
-
             else:
                 pygame.draw.rect(screen,brown,pygame.Rect(initX,initY,80,80))
                 color=color*(-1)
             initX=initX+80
         color=color*(-1)
         initY=initY+80
-
 #Add Pieces
-
 def draw_pieces():
     initY=10
     a=0
@@ -179,7 +173,6 @@ def draw_pieces():
             b=b+1
         initY=initY+80
         a=a+1
-
 def color_clicked_box(i,j):
     a=i*80
     b=j*80
@@ -188,7 +181,6 @@ def color_clicked_box(i,j):
     else:
         pygame.draw.rect(screen,green,pygame.Rect(a,b,80,80))
         show_movable_position(i,j)
-
 def show_movable_position(i,j):
     global selected,selectedPiece
     pieceName=board[j][i]
@@ -216,7 +208,6 @@ def show_movable_position(i,j):
                 pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b-80,80,80))
                 selected=True
                 selectedPiece=(i,j)
-
     elif(pieceName==1):
         if(j==1):
             a=i*80
@@ -268,7 +259,6 @@ def show_movable_position(i,j):
                 pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
                 selected=True
                 selectedPiece=(i,j)
-
 def getBoxNumber(x,y):
     locationX=None
     locationY=None
@@ -279,8 +269,6 @@ def getBoxNumber(x,y):
         if (y>((j)*80) and y<((j+1)*80)):
             locationY=j
     return((locationX,locationY))
-
-
 def allowedMove(boxNumber):
     global selectedPiece,selected
     pieceName=board[selectedPiece[1]][selectedPiece[0]]
@@ -308,7 +296,6 @@ def allowedMove(boxNumber):
         options=((i-1,j-2),(i-1,j+2),(i+1,j+2),(i+1,j-2),(i+2,j-1),(i+2,j+1),(i-2,j-1),(i-2,j+1))
         if(boxNumber in options):
             return True
-
     elif(pieceName==-2 or pieceName==2):
         i=selectedPiece[0]
         j=selectedPiece[1]
@@ -329,7 +316,6 @@ def allowedMove(boxNumber):
         options=tuple(options)
         if(boxNumber in options):
             return True
-
 def movePieces(box_number):
     global colored_y,colored_x,selected,selectedPiece
     if(allowedMove(box_number)):
@@ -350,7 +336,6 @@ def movePieces(box_number):
     colored_y=None  
     selected=False
     selectedPiece=None
-
 while 1:
     for event in pygame.event.get():
         if event.type==pygame.QUIT: sys.exit()
@@ -371,5 +356,4 @@ while 1:
     if(colored_x!=None and colored_y!=None):
         color_clicked_box(colored_x,colored_y)
     draw_pieces()
-
     pygame.display.flip()
