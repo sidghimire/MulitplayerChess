@@ -1,46 +1,54 @@
+ if(pieceName==-1):
+            if(j==6):
+                a=i*80
+                b=j*80
+                pos1=getBoxNumber(a+10,b-70)
+                selected=True
+                selectedPiece=(pos1[1],pos1[0])
+                if(board[pos1[1]][pos1[0]]==0):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b-80,80,80))
+                    pos1=getBoxNumber(a+10,b-150)
+                    if(board[pos1[1]][pos1[0]]==0):
+                        pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b-160,80,80))
+                    selected=True
+                    selectedPiece=(i,j)
+            else:
+                a=i*80
+                b=j*80
+                pos1=getBoxNumber(a+10,b-70)
+                selected=True
+                selectedPiece=(pos1[1],pos1[0])
+                if(board[pos1[1]][pos1[0]]==0):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b-80,80,80))
+                    selected=True
+                    selectedPiece=(i,j)
 
 
-        #Left
-        while(True):
-            if(p<=7 and p>=0):
-                if(board[j][p]==0):
-                    options=list(options)
-                    options.append((p,j))
-                    options=tuple(options)
-                else:
-                    if(not (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
-                        pygame.draw.rect(screen,red,pygame.Rect(p*80,j*80,80,80))
-                    break
-            else:
-                break
-            p=p-1
-        p=j-1
 
-        #BOTTOM
-        while(True):
-            if(p<=7 and p>=0):
-                if(board[p][i]==0):
-                    options=list(options)
-                    options.append((i,p))
-                    options=tuple(options)
-                else:
-                    if( (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
-                        pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
-                    break
+
+
+
+        elif(pieceName==1):
+            if(j==1):
+                a=i*80
+                b=j*80
+                pos1=getBoxNumber(a+10,b+90)
+                selected=True
+                selectedPiece=(pos1[1],pos1[0])
+                if(board[pos1[1]][pos1[0]]==0):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
+                    pos1=getBoxNumber(a+10,b+170)
+                    if(board[pos1[1]][pos1[0]]==0):
+                        pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b+160,80,80))
+                    selected=True
+                    selectedPiece=(i,j)
             else:
-                break
-            p=p-1
-        p=j+1
-        while(True):
-            if(p<=7 and p>=0):
-                if(board[p][i]==0):
-                    options=list(options)
-                    options.append((i,p))
-                    options=tuple(options)
-                else:
-                    if( (board[i][j]<0 and board[p][j]<0) or (board[i][j]>0 and board[p][j]>0)):
-                        pygame.draw.rect(screen,red,pygame.Rect(i*80,p*80,80,80))
-                    break
-            else:
-                break
-            p=p+1
+                a=i*80
+                b=j*80
+                pos1=getBoxNumber(a+10,b+90)
+                selected=True
+                selectedPiece=(pos1[1],pos1[0])
+                if(board[pos1[1]][pos1[0]]==0):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
+                    selected=True
+                    selectedPiece=(i,j)
