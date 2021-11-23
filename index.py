@@ -147,7 +147,7 @@ def movePieces(box_number):
 
 #Logic For Pieces
 
-def pawnLogic(i,j):
+def pawnLogic(i,j,get):
     global selected,selectedPiece
     guess=()
     killOptions=()
@@ -163,7 +163,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(options[color][1]<=7 and options[color][1]>=0 and options[color][0]<=7 and options[color][0]>=0):
                 if(board[options[color][1]][options[color][0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
                     guess=list(guess)
                     guess.append((options[color][0],options[color][1]))
                     guess=tuple(guess)
@@ -173,7 +174,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(killList[color][1]<=7 and killList[color][1]>=0 and killList[color][0]<=7 and killList[color][0]>=0):
                 if(board[killList[color][1]][killList[color][0]]>0):
-                    pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
                     killOptions=list(killOptions)
                     killOptions.append((killList[color][0],killList[color][1]))
                     killOptions=tuple(killOptions)
@@ -190,7 +192,8 @@ def pawnLogic(i,j):
         selectedPiece=(i,j)
         if(options[1]<=7 and options[1]>=0 and options[0]<=7 and options[0]>=0):
             if(board[options[1]][options[0]]==0):
-                pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[0]*80,options[1]*80,80,80))
+                if(get=="color"):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[0]*80,options[1]*80,80,80))
                 guess=list(guess)
                 guess.append((options[0],options[1]))
                 guess=tuple(guess)
@@ -199,7 +202,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(killList[color][1]<=7 and killList[color][1]>=0 and killList[color][0]<=7 and killList[color][0]>=0):
                 if(board[killList[color][1]][killList[color][0]]>0):
-                    pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
                     killOptions=list(killOptions)
                     killOptions.append((killList[color][0],killList[color][1]))
                     killOptions=tuple(killOptions)
@@ -222,7 +226,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(options[color][1]<=7 and options[color][1]>=0 and options[color][0]<=7 and options[color][0]>=0):
                 if(board[options[color][1]][options[color][0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[color][0]*80,options[color][1]*80,80,80))
                     guess=list(guess)
                     guess.append((options[color][0],options[color][1]))
                     guess=tuple(guess)
@@ -232,7 +237,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(killList[color][1]<=7 and killList[color][1]>=0 and killList[color][0]<=7 and killList[color][0]>=0):
                 if(board[killList[color][1]][killList[color][0]]<0):
-                    pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
                     killOptions=list(killOptions)
                     killOptions.append((killList[color][0],killList[color][1]))
                     killOptions=tuple(killOptions)
@@ -248,7 +254,8 @@ def pawnLogic(i,j):
         selectedPiece=(i,j)
         if(options[1]<=7 and options[1]>=0 and options[0]<=7 and options[0]>=0):
             if(board[options[1]][options[0]]==0):
-                pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[0]*80,options[1]*80,80,80))
+                if(get=="color"):
+                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(options[0]*80,options[1]*80,80,80))
                 guess=list(guess)
                 guess.append((options[0],options[1]))
                 guess=tuple(guess)
@@ -257,7 +264,8 @@ def pawnLogic(i,j):
         for color in range(2):
             if(killList[color][1]<=7 and killList[color][1]>=0 and killList[color][0]<=7 and killList[color][0]>=0):
                 if(board[killList[color][1]][killList[color][0]]<0):
-                    pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
+                    if(get=="color"):
+                        pygame.draw.rect(screen,red,pygame.Rect(killList[color][0]*80,killList[color][1]*80,80,80))
                     killOptions=list(killOptions)
                     killOptions.append((killList[color][0],killList[color][1]))
                     killOptions=tuple(killOptions)
@@ -913,7 +921,7 @@ def allowedMove(boxNumber):
     if(pieceName==-1):
         i=selectedPiece[0]
         j=selectedPiece[1]
-        options=pawnLogic(i,j)
+        options=pawnLogic(i,j,"color")
         killList=options[1]
         options=options[0]
         options=list(options)
@@ -925,7 +933,7 @@ def allowedMove(boxNumber):
     elif(pieceName==1):
         i=selectedPiece[0]
         j=selectedPiece[1]
-        options=pawnLogic(i,j)
+        options=pawnLogic(i,j,"color")
         killList=options[1]
         options=options[0]
         options=list(options)
@@ -1034,15 +1042,20 @@ def allowedMove(boxNumber):
 #Check if Move is allowed
 
 
+### MINMAX Algorithm
+
+
+def countNumOpp(board):
+    count=0
+    for i in range(8):
+        for j in range(8):
+            if(board[i][j]>0):
+                count=count+1
+    return count
 
 
 
-
-
-
-
-
-
+    
 
 
 

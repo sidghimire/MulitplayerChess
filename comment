@@ -1,54 +1,24 @@
- if(pieceName==-1):
-            if(j==6):
-                a=i*80
-                b=j*80
-                pos1=getBoxNumber(a+10,b-70)
-                selected=True
-                selectedPiece=(pos1[1],pos1[0])
-                if(board[pos1[1]][pos1[0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b-80,80,80))
-                    pos1=getBoxNumber(a+10,b-150)
-                    if(board[pos1[1]][pos1[0]]==0):
-                        pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b-160,80,80))
-                    selected=True
-                    selectedPiece=(i,j)
-            else:
-                a=i*80
-                b=j*80
-                pos1=getBoxNumber(a+10,b-70)
-                selected=True
-                selectedPiece=(pos1[1],pos1[0])
-                if(board[pos1[1]][pos1[0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b-80,80,80))
-                    selected=True
-                    selectedPiece=(i,j)
+
+def countBoardPower(board,color):
+    sum=0
+    if(color>0):
+        for i in range(8):
+            for j in range(8):
+                if(board[i][j]>0):
+                    sum=sum+board[i][j]
+    if(color<0):
+        for i in range(8):
+            for j in range(8):
+                if(board[i][j]<0):
+                    sum=sum+board[i][j]              
+    return sum
 
 
-
-
-
-
-        elif(pieceName==1):
-            if(j==1):
-                a=i*80
-                b=j*80
-                pos1=getBoxNumber(a+10,b+90)
-                selected=True
-                selectedPiece=(pos1[1],pos1[0])
-                if(board[pos1[1]][pos1[0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
-                    pos1=getBoxNumber(a+10,b+170)
-                    if(board[pos1[1]][pos1[0]]==0):
-                        pygame.draw.rect(screen,lightGreen2,pygame.Rect(a,b+160,80,80))
-                    selected=True
-                    selectedPiece=(i,j)
-            else:
-                a=i*80
-                b=j*80
-                pos1=getBoxNumber(a+10,b+90)
-                selected=True
-                selectedPiece=(pos1[1],pos1[0])
-                if(board[pos1[1]][pos1[0]]==0):
-                    pygame.draw.rect(screen,lightGreen1,pygame.Rect(a,b+80,80,80))
-                    selected=True
-                    selectedPiece=(i,j)
+def minmaxAlgorithm(board,depth):
+    oppCount=countNumOpp(board)
+    for i in range(8):
+        for j in range(8):
+            if(board[i][j]>0):
+                if(board[i][j]==1):
+                    options=pawnLogic(j,i,"option")
+                    print(countBoardPower(board,-1))
