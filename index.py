@@ -1,5 +1,6 @@
 from os import kill
 import pygame,sys
+import numpy
 pygame.init()
 size=width,height=640,640
 brown=(185,134,103)
@@ -25,6 +26,7 @@ board=[[2,3,4,5,6,4,3,2],
         [0,0,0,0,0,0,0,0],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [-2,-3,-4,-5,-6,-4,-3,-2]]
+
 assignPieces={
     0:"./Pieces/null.png",
     1:"./Pieces/Chess_plt60.png",
